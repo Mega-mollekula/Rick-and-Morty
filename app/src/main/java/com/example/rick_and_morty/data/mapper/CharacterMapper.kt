@@ -11,7 +11,8 @@ abstract class CharacterMapper {
             return CharacterEntity(
                 name = dto.name,
                 image = Uri.parse(dto.image),
-                status = dto.status
+                status = dto.status,
+                species = dto.species
             )
         }
 
@@ -19,7 +20,19 @@ abstract class CharacterMapper {
             return CharacterEntity(
                 name = model.name,
                 image = Uri.parse(model.image),
-                status = model.status
+                status = model.status,
+                species = model.species
+            )
+        }
+
+        fun mapDTOtoModel(dto: CharacterDTO): CharacterModel {
+            return CharacterModel(
+                id = dto.id,
+                name = dto.name,
+                age = 0, // либо вычленить откуда-то, либо захардкодить
+                image = dto.image,
+                status = dto.status,
+                species = dto.species
             )
         }
     }

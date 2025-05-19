@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+    id("kotlin-kapt")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -31,6 +31,12 @@ android {
             )
         }
     }
+
+    packagingOptions {
+        resources {
+            pickFirst("META-INF/INDEX.LIST")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -42,7 +48,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -61,6 +67,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.test.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,10 +78,28 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.runtime.ktx.v230)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.room.ktx)
-    kapt("androidx.room:room-compiler:2.7.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 
-    implementation(libs.coil.compose)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ktor.client.okhttp)
+    implementation(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.6.3"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+
+    implementation("io.ktor:ktor-client-core:2.3.7")
+    implementation("io.ktor:ktor-client-okhttp:2.3.7")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+
+    implementation("io.ktor:ktor-client-logging:2.3.7")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "org.jetbrains.kotlinx" &&
+                requested.name.startsWith("kotlinx-serialization-")) {
+                useVersion("1.6.3")
+            }
+        }
+    }
 }

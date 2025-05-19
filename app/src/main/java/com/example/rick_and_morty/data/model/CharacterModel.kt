@@ -10,5 +10,6 @@ data class CharacterModel (
     val name: String,
     val age: Int,
     val image: String,
-    val status: String
+    val status: String,
+    val species: String
 )
