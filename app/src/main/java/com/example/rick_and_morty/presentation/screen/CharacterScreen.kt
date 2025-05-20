@@ -52,16 +52,13 @@ fun CharacterScreen(viewModel: CharacterViewModel) {
                         Text("Повторить")
                     }
                 }
-
                 is UiState.Success -> {
                     val pageCharacters by viewModel.pagedCharacters.collectAsState()
-
                     Column(Modifier.fillMaxSize()) {
                         CharacterList(
                             characters = pageCharacters,
                             modifier = Modifier.weight(1f)
                         )
-
                         Row(
                             Modifier
                                 .fillMaxWidth()
@@ -74,7 +71,6 @@ fun CharacterScreen(viewModel: CharacterViewModel) {
                             ) {
                                 Text("<")
                             }
-
                             Button(
                                 onClick = { viewModel.nextPage() },
                                 enabled = (page + 1) * 20 < (uiState as UiState.Success).characters.size
@@ -109,9 +105,7 @@ private fun CharacterList(characters: List<CharacterEntity>, modifier: Modifier 
                             .size(64.dp)
                             .clip(RoundedCornerShape(8.dp))
                     )
-
                     Spacer(Modifier.width(12.dp))
-
                     Column {
                         Text(c.name, fontWeight = FontWeight.Bold)
                         Text("Status: ${c.status}")

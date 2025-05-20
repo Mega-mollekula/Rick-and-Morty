@@ -18,7 +18,6 @@ object RickApiService {
         val allCharacters = mutableListOf<CharacterDTO>()
         allCharacters.addAll(firstPage.results)
         
-        // Загружаем остальные страницы параллельно
         val remainingPages = (2..totalPages).map { page ->
             async {
                 try {

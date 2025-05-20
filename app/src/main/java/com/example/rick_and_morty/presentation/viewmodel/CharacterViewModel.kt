@@ -60,7 +60,6 @@ class CharacterViewModel(
                     _uiState.value = UiState.Success(characters)
                 }
             } catch (e: Exception) {
-                // Пробуем достать данные из Room
                 try {
                     val cached = repository.getAllCharacters(forceRefresh = false)
                     if (cached.isNotEmpty()) {
