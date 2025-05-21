@@ -11,6 +11,7 @@ import kotlinx.coroutines.coroutineScope
 object RickApiService {
     private const val BASE_URL = "https://rickandmortyapi.com/api"
 
+    /* функция такая странная, потому что api возвращает по запросу к end-point /character только первые 20 персонажей */
     suspend fun getAllCharacters(): List<CharacterDTO> = coroutineScope {
         val firstPage = NetworkModule.publicClient.get("$BASE_URL/character").body<CharacterListDTO>()
         val totalPages = firstPage.info.pages
@@ -27,11 +28,9 @@ object RickApiService {
                 }
             }
         }
-        
         remainingPages.forEach { deferred ->
             allCharacters.addAll(deferred.await())
         }
-        
         allCharacters
     }
 
